@@ -9,9 +9,9 @@ class Repo {
   Repo(this._webServices);
 
   Future<ApiResult<List<ItemModel>>> fetchItems(
-      {int start = 0, int limit = 10}) async {
+      {int page = 0, int limit = 10}) async {
     try {
-      var response = await _webServices.fetchItems(start: start, limit: limit);
+      var response = await _webServices.fetchItems(page: page, limit: limit);
 
       return ApiResult.success(response);
     } catch (error) {

@@ -1,91 +1,71 @@
-import 'dart:developer';
-
 import 'package:code_nes_lab_task/core/services/repo.dart';
+import 'package:flutter/material.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:get/get.dart';
 import '../models/item_model.dart';
 
 class ItemController extends GetxController {
   final Repo _repo = Get.put(Repo(Get.find()));
 
-  var items = <ItemModel>[].obs;
-  var isLoading = false.obs;
-  var isFetchingMore = false.obs;
+  bool startAnimation = false;
 
-  var filteredItems = <ItemModel>[].obs;
+  var searchQuery = ''.obs;
 
-  var errorMessage = ''.obs;
+  static const int _pageSize = 10;
 
-  int _start = 0;
-  final int _limit = 10;
-  bool _hasMore = true;
+  final PagingController<int, ItemModel> pagingController =
+      PagingController(firstPageKey: 1);
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
-    fetchItems();
+    pagingController.addPageRequestListener((pageKey) {
+      fetchItems(pageKey).then((_) => WidgetsBinding.instance
+          .addPostFrameCallback((_) => startAnimation = true));
+    });
   }
 
-  void fetchItems() async {
-    var result = await _repo.fetchItems();
+  Future<void> fetchItems(int pageKey) async {
+    final result = await _repo.fetchItems(page: pageKey, limit: _pageSize);
+
     result.when(
-      success: (success) {
-        log("${success.length}");
+      success: (data) {
+        final filteredData = searchQuery.isNotEmpty
+            ? data
+                .where(
+                    (item) => item.title?.contains(searchQuery.value) ?? false)
+                .toList()
+            : data;
+
+        // Determine if it's the last page based on the number of items fetched
+        final isLastPage = filteredData.length < _pageSize;
+
+        if (isLastPage) {
+          // Append the last page of data
+          pagingController.appendLastPage(filteredData);
+        } else {
+          // Calculate the next page key as the current page + 1
+          final nextPageKey = pageKey + 1;
+
+          // Append the current page of data and set the next page key
+          pagingController.appendPage(filteredData, nextPageKey);
+        }
       },
       failure: (error) {
-        log("${error.message}");
-        log("${error.content}");
-        log("${error.responseCode}");
+        pagingController.error = error.message ?? 'Unknown Error';
       },
     );
-    // if (isLoading.value || !_hasMore) return;
-
-    // isLoading(true);
-    // try {
-    //   final data = await _apiService.fetchItems(start: _start, limit: _limit);
-    //   if (data.isEmpty) {
-    //     _hasMore = false;
-    //   } else {
-    //     final newItems = data.map((e) => ItemModel.fromJson(e)).toList();
-    //     items.addAll(newItems);
-    //     filteredItems.value = items;
-    //     _start += _limit;
-    //   }
-    // } catch (e) {
-    //   errorMessage.value = e.toString();
-    // } finally {
-    //   isLoading(false);
-    // }
   }
 
-  void loadMoreItems() async {
-    // if (isFetchingMore.value || !_hasMore) return;
-
-    // isFetchingMore(true);
-    // try {
-    //   final data = await _apiService.fetchItems(start: _start, limit: _limit);
-    //   if (data.isEmpty) {
-    //     _hasMore = false;
-    //   } else {
-    //     final newItems = data.map((e) => ItemModel.fromJson(e)).toList();
-    //     items.addAll(newItems);
-    //     filteredItems.value = items;
-    //     _start += _limit;
-    //   }
-    // } catch (e) {
-    //   errorMessage.value = e.toString();
-    // } finally {
-    //   isFetchingMore(false);
-    // }
+  // Update search query and refresh the items list
+  void searchWithTitle(String query) {
+    searchQuery.value = query;
+    pagingController.refresh();
   }
 
-  void filterItems(String query) {
-    // if (query.isEmpty) {
-    //   filteredItems.value = items;
-    // } else {
-    //   filteredItems.value = items
-    //       .where(
-    //           (item) => item.title.toLowerCase().contains(query.toLowerCase()))
-    //       .toList();
-    // }
+  @override
+  void dispose() {
+    pagingController.dispose();
+    super.dispose();
   }
 }
