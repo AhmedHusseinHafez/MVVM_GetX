@@ -10,30 +10,36 @@ class ItemDetailView extends StatelessWidget {
   Widget build(BuildContext context) {
     final ItemModel item = Get.arguments;
 
-    return Scaffold(
-      backgroundColor: ColorManger.primary,
-      appBar: _appBar(item),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              item.title ?? '',
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: ColorManger.secondary,
-              ),
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: ColorManger.primary,
+        appBar: _appBar(item),
+        body: _body(item),
+      ),
+    );
+  }
+
+  Widget _body(ItemModel item) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            item.title ?? '',
+            style: const TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: ColorManger.secondary,
             ),
-            const SizedBox(height: 16),
-            Text(item.body ?? '',
-                style: const TextStyle(
-                  fontSize: 19,
-                  color: ColorManger.white,
-                )),
-          ],
-        ),
+          ),
+          const SizedBox(height: 16),
+          Text(item.body ?? '',
+              style: const TextStyle(
+                fontSize: 19,
+                color: ColorManger.white,
+              )),
+        ],
       ),
     );
   }

@@ -18,10 +18,12 @@ class _ItemListViewState extends State<ItemListView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: ColorManger.primary,
-      appBar: _appBar(),
-      body: _body(),
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: ColorManger.primary,
+        appBar: _appBar(),
+        body: _body(),
+      ),
     );
   }
 
