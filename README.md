@@ -55,10 +55,3 @@ A Flutter application structured using the MVVM (Model-View-ViewModel) architect
 - **Freezed**: Code generation for immutable data classes.
 - **Build Runner**: Tool for code generation.
 
-## 🏗 Architecture Overview
-
-This application follows the **MVVM** (Model-View-ViewModel) architecture, which divides the app into three main layers:
-
-- **Model**: Represents the data structure and business logic (e.g., network responses, domain objects).
-- **View**: The UI layer, responsible for rendering the user interface and observing changes in the ViewModel's reactive state.
-- **ViewModel**: Acts as a mediator between the Model and View. It handles the business logic and updates the View when necessary using reactive state management (via GetX).
