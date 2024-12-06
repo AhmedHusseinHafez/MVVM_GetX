@@ -11,7 +11,7 @@ abstract class WebServices {
 
   @GET("/posts")
   Future<List<ItemModel>> fetchItems({
-    @Query("_start") required int start,
+    @Query("_page") required int page,
     @Query("_limit") required int limit,
   });
 }

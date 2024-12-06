@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import '../models/item_model.dart';
 
 class ItemDetailView extends StatelessWidget {
+  const ItemDetailView({super.key});
+
   @override
   Widget build(BuildContext context) {
     final ItemModel item = Get.arguments;

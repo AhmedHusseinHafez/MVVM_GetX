@@ -34,6 +34,9 @@ dependencies:
 
   #For Testing
   mockito: ^5.4.4
+
+  #For Pagination
+  infinite_scroll_pagination: ^4.1.0
   
 
 dev_dependencies:

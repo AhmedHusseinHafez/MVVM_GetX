@@ -1,70 +1,83 @@
+import 'package:code_nes_lab_task/core/constants/strings_manager.dart';
+import 'package:code_nes_lab_task/core/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import '../models/item_model.dart';
 import '../view_models/item_controller.dart';
 
-class ItemListView extends StatelessWidget {
+class ItemListView extends StatefulWidget {
+  const ItemListView({super.key});
+
+  @override
+  State<ItemListView> createState() => _ItemListViewState();
+}
+
+class _ItemListViewState extends State<ItemListView> {
   final ItemController controller = Get.find();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Items')),
-      body: Obx(() {
-        if (controller.isLoading.value && controller.items.isEmpty) {
-          return const Center(child: CircularProgressIndicator());
-        }
-
-        if (controller.errorMessage.isNotEmpty) {
-          return Center(child: Text(controller.errorMessage.value));
-        }
-
-        return Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                decoration: const InputDecoration(
-                  hintText: 'Search items...',
-                  border: OutlineInputBorder(),
-                ),
-                onChanged: controller.filterItems,
-              ),
-            ),
-            Expanded(
-              child: RefreshIndicator(
-                onRefresh: () async {
-                  controller.items.clear();
-                  controller.fetchItems();
-                },
-                child: ListView.builder(
-                  itemCount: controller.filteredItems.length + 1,
-                  itemBuilder: (context, index) {
-                    if (index < controller.filteredItems.length) {
-                      final item = controller.filteredItems[index];
-                      return ListTile(
-                        title: Text(item.title ?? ''),
-                        onTap: () => Get.toNamed('/detail', arguments: item),
-                      );
-                    } else {
-                      if (controller.isFetchingMore.value) {
-                        return const Padding(
-                          padding: EdgeInsets.all(16.0),
-                          child: Center(child: CircularProgressIndicator()),
-                        );
-                      } else if (!controller.isFetchingMore.value &&
-                          controller.items.isNotEmpty) {
-                        controller.loadMoreItems();
-                        return const SizedBox();
-                      }
-                      return const SizedBox();
-                    }
-                  },
-                ),
-              ),
-            ),
-          ],
-        );
-      }),
+      appBar: AppBar(title: const Text(StringsManager.appBarTitle)),
+      body: _body(),
     );
+  }
+
+  Widget _body() {
+    return RefreshIndicator(
+      onRefresh: _onRefresh,
+      child: Column(
+        children: [
+          _searchBar(),
+          _items(),
+        ],
+      ),
+    );
+  }
+
+  Widget _items() {
+    return Expanded(
+      child: PagedListView<int, ItemModel>(
+        pagingController: controller.pagingController,
+        builderDelegate: PagedChildBuilderDelegate<ItemModel>(
+          itemBuilder: (context, item, index) => ListTile(
+            title: Text(item.title ?? ''),
+            onTap: () => Get.toNamed(AppRoutes.detail, arguments: item),
+          ),
+          firstPageProgressIndicatorBuilder: (_) =>
+              const Center(child: CircularProgressIndicator()),
+          newPageProgressIndicatorBuilder: (_) =>
+              const Center(child: CircularProgressIndicator()),
+          noItemsFoundIndicatorBuilder: (_) =>
+              const Center(child: Text(StringsManager.noDataToDisplay)),
+          firstPageErrorIndicatorBuilder: (_) => Center(
+            child: Text(controller.pagingController.error.toString()),
+          ),
+          noMoreItemsIndicatorBuilder: (_) => const Center(
+            child: Text(StringsManager.noMoreItems),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _searchBar() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: TextField(
+        decoration: const InputDecoration(
+          hintText: StringsManager.searchHint,
+          border: OutlineInputBorder(),
+        ),
+        onChanged: controller.searchWithTitle,
+      ),
+    );
+  }
+
+  /// Method to handle refresh action
+  Future<void> _onRefresh() async {
+    controller.pagingController.refresh();
+    controller.searchWithTitle('');
   }
 }

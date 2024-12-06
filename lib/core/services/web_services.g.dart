@@ -25,11 +25,14 @@ class _WebServices implements WebServices {
 
   @override
   Future<List<ItemModel>> fetchItems({
-    int start = 0,
-    int limit = 10,
+    required int page,
+    required int limit,
   }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'_page': page,
+      r'_limit': limit,
+    };
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<List<ItemModel>>(Options(
@@ -39,7 +42,7 @@ class _WebServices implements WebServices {
     )
         .compose(
           _dio.options,
-          '/posts?_start=0&_limit=10',
+          '/posts',
           queryParameters: queryParameters,
           data: _data,
         )
