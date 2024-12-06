@@ -1,9 +1,9 @@
+import 'package:code_nes_lab_task/core/constants/color_manger.dart';
 import 'package:code_nes_lab_task/core/constants/strings_manager.dart';
-import 'package:code_nes_lab_task/core/routes/app_routes.dart';
+import 'package:code_nes_lab_task/views/widgets/item_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import '../models/item_model.dart';
+
 import '../view_models/item_controller.dart';
 
 class ItemListView extends StatefulWidget {
@@ -19,59 +19,56 @@ class _ItemListViewState extends State<ItemListView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text(StringsManager.appBarTitle)),
+      backgroundColor: ColorManger.primary,
+      appBar: _appBar(),
       body: _body(),
+    );
+  }
+
+  PreferredSizeWidget _appBar() {
+    return AppBar(
+      forceMaterialTransparency: true,
+      backgroundColor: ColorManger.primary,
+      centerTitle: true,
+      title: const Text(
+        StringsManager.appBarTitle,
+        style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
     );
   }
 
   Widget _body() {
     return RefreshIndicator(
       onRefresh: _onRefresh,
-      child: Column(
-        children: [
-          _searchBar(),
-          _items(),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          children: [
+            _searchBar(),
+            const SizedBox(height: 20),
+            _items(),
+          ],
+        ),
       ),
     );
   }
 
   Widget _items() {
     return Expanded(
-      child: PagedListView<int, ItemModel>(
-        pagingController: controller.pagingController,
-        builderDelegate: PagedChildBuilderDelegate<ItemModel>(
-          itemBuilder: (context, item, index) => ListTile(
-            title: Text(item.title ?? ''),
-            onTap: () => Get.toNamed(AppRoutes.detail, arguments: item),
-          ),
-          firstPageProgressIndicatorBuilder: (_) =>
-              const Center(child: CircularProgressIndicator()),
-          newPageProgressIndicatorBuilder: (_) =>
-              const Center(child: CircularProgressIndicator()),
-          noItemsFoundIndicatorBuilder: (_) =>
-              const Center(child: Text(StringsManager.noDataToDisplay)),
-          firstPageErrorIndicatorBuilder: (_) => Center(
-            child: Text(controller.pagingController.error.toString()),
-          ),
-          noMoreItemsIndicatorBuilder: (_) => const Center(
-            child: Text(StringsManager.noMoreItems),
-          ),
-        ),
-      ),
+      child: ItemsBuilder(controller: controller),
     );
   }
 
   Widget _searchBar() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: TextField(
-        decoration: const InputDecoration(
-          hintText: StringsManager.searchHint,
-          border: OutlineInputBorder(),
-        ),
-        onChanged: controller.searchWithTitle,
-      ),
+    return SearchBar(
+      hintText: StringsManager.searchHint,
+      hintStyle:
+          const WidgetStatePropertyAll(TextStyle(color: ColorManger.white)),
+      backgroundColor: const WidgetStatePropertyAll(ColorManger.secondary),
+      onChanged: controller.searchWithTitle,
     );
   }
 

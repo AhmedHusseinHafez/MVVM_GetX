@@ -1,10 +1,13 @@
 import 'package:code_nes_lab_task/core/services/repo.dart';
+import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:get/get.dart';
 import '../models/item_model.dart';
 
 class ItemController extends GetxController {
   final Repo _repo = Get.put(Repo(Get.find()));
+
+  bool startAnimation = false;
 
   var searchQuery = ''.obs;
 
@@ -14,10 +17,11 @@ class ItemController extends GetxController {
       PagingController(firstPageKey: 1);
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
     pagingController.addPageRequestListener((pageKey) {
-      fetchItems(pageKey);
+      fetchItems(pageKey).then((_) => WidgetsBinding.instance
+          .addPostFrameCallback((_) => startAnimation = true));
     });
   }
 

@@ -7,5 +7,5 @@ class StringsManager {
 
   static const String searchHint = 'Search items...';
 
-  static const String appBarTitle = 'Items';
+  static const String appBarTitle = 'CodeNess Lab Task';
 }
