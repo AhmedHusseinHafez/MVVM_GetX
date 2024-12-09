@@ -1,5 +1,5 @@
 import 'package:code_nes_lab_task/core/constants/app_constants.dart';
-import 'package:code_nes_lab_task/data/models/item_model.dart';
+import 'package:code_nes_lab_task/model/models/item_model.dart';
 import 'package:dio/dio.dart' hide Headers;
 import 'package:retrofit/retrofit.dart';
 

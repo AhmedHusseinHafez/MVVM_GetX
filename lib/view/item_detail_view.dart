@@ -1,7 +1,7 @@
 import 'package:code_nes_lab_task/core/constants/color_manger.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../data/models/item_model.dart';
+import '../model/models/item_model.dart';
 
 class ItemDetailView extends StatelessWidget {
   const ItemDetailView({super.key});

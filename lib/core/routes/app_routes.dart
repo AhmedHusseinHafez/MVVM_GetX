@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import '../../views/item_list_view.dart';
-import '../../views/item_detail_view.dart';
+import '../../view/item_list_view.dart';
+import '../../view/item_detail_view.dart';
 
 class AppRoutes {
   static const String list = '/';

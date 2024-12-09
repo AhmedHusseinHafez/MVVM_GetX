@@ -23,7 +23,7 @@ lib/
 │ ├── network_exceptions.dart
 │ └── dio_factory.dart
 │ └── error_model.dart
-├── data/
+├── model/
 │ ├── models/
 │ │ └── item_model.dart
 │ ├── repositories/
@@ -31,7 +31,7 @@ lib/
 │ └── services/
 │ ├── web_services.dart
 │ └── web_services.g.dart
-├── view_models/
+├── viewmodel/
 │ └── item_controller.dart
 ├── view/
 │ ├── item_list_view.dart

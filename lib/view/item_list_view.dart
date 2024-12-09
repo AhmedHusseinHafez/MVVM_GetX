@@ -1,10 +1,10 @@
 import 'package:code_nes_lab_task/core/constants/color_manger.dart';
 import 'package:code_nes_lab_task/core/constants/strings_manager.dart';
-import 'package:code_nes_lab_task/views/widgets/item_builder.dart';
+import 'package:code_nes_lab_task/view/widgets/item_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../view_models/item_controller.dart';
+import '../viewmodel/item_controller.dart';
 
 class ItemListView extends StatefulWidget {
   const ItemListView({super.key});

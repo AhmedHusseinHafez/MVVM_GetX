@@ -1,8 +1,8 @@
 import 'package:code_nes_lab_task/core/constants/color_manger.dart';
 import 'package:code_nes_lab_task/core/constants/strings_manager.dart';
 import 'package:code_nes_lab_task/core/routes/app_routes.dart';
-import 'package:code_nes_lab_task/data/models/item_model.dart';
-import 'package:code_nes_lab_task/view_models/item_controller.dart';
+import 'package:code_nes_lab_task/model/models/item_model.dart';
+import 'package:code_nes_lab_task/viewmodel/item_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
