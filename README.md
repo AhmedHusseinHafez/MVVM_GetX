@@ -8,36 +8,37 @@ A Flutter application structured using the MVVM (Model-View-ViewModel) architect
 
 ## 📂 Project Structure
 
-    lib/
-    ├── core/
-    │   ├── bindings/
-    │   │   └── app_bindings.dart
-    │   ├── constants/
-    │   │   ├── app_constants.dart
-    │   │   ├── color_manager.dart
-    │   │   └── strings_manager.dart
-    │   ├── networking/
-    │   │   ├── api_result.dart
-    │   │   ├── api_result.freezed.dart
-    │   │   ├── dio_factory.dart
-    │   │   ├── error_model.dart
-    │   │   └── network_exceptions.dart
-    │   ├── routes/
-    │   │   └── app_routes.dart
-    │   └── services/
-    │       ├── repo.dart
-    │       ├── web_services.dart
-    │       └── web_services.g.dart
-    ├── models/
-    │   └── item_model.dart
-    ├── view_models/
-    │   └── item_controller.dart
-    ├── views/
-    │   ├── item_list_view.dart
-    │   ├── item_detail_view.dart
-    │   └── widgets/
-    │       └── item_builder.dart
-    └── main.dart
+lib/
+├── core/
+│ ├── bindings/
+│ │ └── app_bindings.dart
+│ ├── constants/
+│ │ ├── app_constants.dart
+│ │ ├── color_manager.dart
+│ │ └── strings_manager.dart
+│ ├── routes/
+│ │ └── app_routes.dart
+│ └── networking/
+│ ├── api_result.dart
+│ ├── network_exceptions.dart
+│ └── dio_factory.dart
+│ └── error_model.dart
+├── data/
+│ ├── models/
+│ │ └── item_model.dart
+│ ├── repositories/
+│ │ └── repo.dart
+│ └── services/
+│ ├── web_services.dart
+│ └── web_services.g.dart
+├── view_models/
+│ └── item_controller.dart
+├── view/
+│ ├── item_list_view.dart
+│ ├── item_detail_view.dart
+│ └── widgets/
+│ └── item_builder.dart
+└── main.dart
 
 ## 🚀 Features
 
