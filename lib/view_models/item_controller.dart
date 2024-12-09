@@ -1,8 +1,8 @@
-import 'package:code_nes_lab_task/core/services/repo.dart';
+import 'package:code_nes_lab_task/data/repositories/repo.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:get/get.dart';
-import '../models/item_model.dart';
+import '../data/models/item_model.dart';
 
 class ItemController extends GetxController {
   final Repo repo;

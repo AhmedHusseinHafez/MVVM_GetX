@@ -1,7 +1,7 @@
-import 'package:code_nes_lab_task/core/services/repo.dart';
+import 'package:code_nes_lab_task/data/repositories/repo.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:code_nes_lab_task/models/item_model.dart';
+import 'package:code_nes_lab_task/data/models/item_model.dart';
 import 'package:code_nes_lab_task/core/networking/api_result.dart';
 import 'package:dio/dio.dart';
 

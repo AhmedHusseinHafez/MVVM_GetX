@@ -1,7 +1,7 @@
-import 'package:code_nes_lab_task/models/item_model.dart';
+import 'package:code_nes_lab_task/data/models/item_model.dart';
 import 'package:code_nes_lab_task/core/networking/api_result.dart';
 import 'package:code_nes_lab_task/core/networking/network_exceptions.dart';
-import 'package:code_nes_lab_task/core/services/web_services.dart';
+import 'package:code_nes_lab_task/data/services/web_services.dart';
 
 class Repo {
   final WebServices _webServices;
