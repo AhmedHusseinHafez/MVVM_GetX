@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:dio_smart_retry/dio_smart_retry.dart';
+import 'package:flutter/foundation.dart';
+// ignore: depend_on_referenced_packages
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class DioFactory {
@@ -18,7 +20,7 @@ class DioFactory {
         ..options.receiveTimeout = timeOut
         ..options.headers = {'Content-Type': 'application/json; charset=UTF-8'};
 
-      _addDioInterceptor();
+      kDebugMode ? _addDioInterceptor() : null;
       _retryInterceptor();
       return dio!;
     } else {

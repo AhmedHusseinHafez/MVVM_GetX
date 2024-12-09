@@ -1,4 +1,5 @@
 import 'package:code_nes_lab_task/core/networking/error_model.dart';
+// ignore: depend_on_referenced_packages
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'api_result.freezed.dart';

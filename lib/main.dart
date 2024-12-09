@@ -2,15 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'core/bindings/app_bindings.dart';
 import 'core/routes/app_routes.dart';
+// ignore: depend_on_referenced_packages
 import 'package:device_preview/device_preview.dart';
+// ignore: unused_import
+import 'package:flutter/foundation.dart';
 
 void main() {
-  runApp(
-    // DevicePreview(
-    //   builder: (context) => const MyApp(),
-    // ),
-    const MyApp(),
-  );
+  // runApp(kDebugMode
+  //     ? DevicePreview(
+  //         builder: (context) => const MyApp(),
+  //       )
+  //     : const MyApp());
+
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
