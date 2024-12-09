@@ -68,7 +68,7 @@ class _ItemsBuilderState extends State<ItemsBuilder> {
       curve: Curves.easeInOut,
       duration: Duration(milliseconds: 300 + (index * 100)),
       transform: Matrix4.translationValues(
-          widget.controller.startAnimation ? 0 : screenWidth, 0, 0),
+          widget.controller.startAnimation.value ? 0 : screenWidth, 0, 0),
       child: ListTile(
         title: Hero(
           tag: item.id ?? 'default_tag', // Use unique tag

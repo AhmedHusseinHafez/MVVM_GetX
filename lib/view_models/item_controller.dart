@@ -5,9 +5,11 @@ import 'package:get/get.dart';
 import '../models/item_model.dart';
 
 class ItemController extends GetxController {
-  final Repo _repo = Get.put(Repo(Get.find()));
+  final Repo repo;
 
-  bool startAnimation = false;
+  ItemController({required this.repo});
+
+  var startAnimation = false.obs;
 
   var searchQuery = ''.obs;
 
@@ -19,23 +21,16 @@ class ItemController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    pagingController.addPageRequestListener((pageKey) {
-      fetchItems(pageKey).then((_) => WidgetsBinding.instance
-          .addPostFrameCallback((_) => startAnimation = true));
-    });
+    pagingController.addPageRequestListener((pageKey) => _fetchItems(pageKey));
   }
 
-  Future<void> fetchItems(int pageKey) async {
-    final result = await _repo.fetchItems(page: pageKey, limit: _pageSize);
+  Future<void> _fetchItems(int pageKey) async {
+    final result = await repo.fetchItems(page: pageKey, limit: _pageSize);
 
     result.when(
       success: (data) {
-        final filteredData = searchQuery.isNotEmpty
-            ? data
-                .where(
-                    (item) => item.title?.contains(searchQuery.value) ?? false)
-                .toList()
-            : data;
+        // Search with title or body
+        final filteredData = _filterItems(data, searchQuery.value);
 
         // Determine if it's the last page based on the number of items fetched
         final isLastPage = filteredData.length < _pageSize;
@@ -50,11 +45,26 @@ class ItemController extends GetxController {
           // Append the current page of data and set the next page key
           pagingController.appendPage(filteredData, nextPageKey);
         }
+
+        // Start animation on the next frame
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          startAnimation.value = true;
+        });
       },
       failure: (error) {
         pagingController.error = error.message ?? 'Unknown Error';
       },
     );
+  }
+
+  // Search filter logic moved to a separate function for clarity
+  List<ItemModel> _filterItems(List<ItemModel> items, String query) {
+    if (query.isEmpty) return items;
+    return items.where((item) {
+      // final bodyMatches = item.body?.contains(query) ?? false; // add this line if you need to search by body
+      final titleMatches = item.title?.contains(query) ?? false;
+      return titleMatches;
+    }).toList();
   }
 
   // Update search query and refresh the items list
