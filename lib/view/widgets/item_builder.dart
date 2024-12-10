@@ -51,6 +51,10 @@ class _ItemsBuilderState extends State<ItemsBuilder> {
   }
 
   Widget _itemBuilder(ItemModel item, int index) {
+    // Start animation on the next frame
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      widget.controller.startAnimation.value = true;
+    });
     return ItemCard(
       screenWidth: screenWidth,
       index: index,

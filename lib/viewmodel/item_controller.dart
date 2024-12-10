@@ -8,6 +8,8 @@ class ItemController extends GetxController {
 
   ItemController({required this.repo});
 
+  var startAnimation = false.obs;
+
   var searchQuery = ''.obs;
 
   static const int _pageSize = 10;
