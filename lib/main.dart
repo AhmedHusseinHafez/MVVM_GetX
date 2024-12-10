@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:code_nes_lab_task/view/widgets/global_error.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'core/bindings/app_bindings.dart';
@@ -8,11 +11,15 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 
 void main() {
-  // runApp(kDebugMode
-  //     ? DevicePreview(
-  //         builder: (context) => const MyApp(),
-  //       )
-  //     : const MyApp());
+  // Set the custom global error handler
+  FlutterError.onError = (details) {
+    FlutterError.presentError(details);
+    if (kReleaseMode) exit(1);
+  };
+
+  // Set custom global error widget
+  ErrorWidget.builder =
+      (FlutterErrorDetails details) => GlobalError(details: details);
 
   runApp(const MyApp());
 }
