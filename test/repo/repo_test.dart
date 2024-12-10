@@ -1,12 +1,15 @@
 import 'package:code_nes_lab_task/model/repositories/repo.dart';
+import 'package:code_nes_lab_task/model/services/web_services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:code_nes_lab_task/model/models/item_model.dart';
 import 'package:code_nes_lab_task/core/networking/api_result.dart';
 import 'package:dio/dio.dart';
 
-import 'mocks/web_services_mock.mocks.dart';
+import 'repo_test.mocks.dart';
 
+@GenerateMocks([WebServices])
 void main() {
   late Repo repo;
   late MockWebServices mockWebServices;
